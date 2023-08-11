@@ -1,0 +1,63 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "./App.css";
+
+function App() {
+  const [selectedNumber, setSelectedNumber] = useState(0);
+  const [challengeRatingAndName, setChallengeRatingAndName] = useState([]);
+  const [selectedMonsterName, setSelectedMonsterName] = useState("No monsters");
+
+  useEffect(() => {
+    const url = "https://api.open5e.com/v1/monsters/";
+
+    axios.get(url).then((response) => {
+      const monsters = response.data.results;
+      const crData = monsters.map((monster) => ({
+        cr: parseFloat(monster.cr),
+        name: monster.name,
+      }));
+      setChallengeRatingAndName(crData);
+
+      // Generate and set the random monster name
+      const selectedMonsterNames = crData
+        .filter((data) => data.cr === selectedNumber)
+        .map((data) => data.name);
+
+      if (selectedMonsterNames.length === 0) {
+        setSelectedMonsterName("No monsters");
+      } else {
+        const randomIndex = Math.floor(
+          Math.random() * selectedMonsterNames.length
+        );
+        setSelectedMonsterName(selectedMonsterNames[randomIndex]);
+      }
+    });
+  }, [selectedNumber]);
+
+  const handleChange = (event) => {
+    const crNumber = parseFloat(event.target.value);
+    setSelectedNumber(crNumber);
+  };
+
+  return (
+    <>
+      <select value={selectedNumber} onChange={handleChange}>
+        {(() => {
+          let options = [];
+          for (let i = 0; i <= 21; i++) {
+            options.push(
+              <option key={i} value={i}>
+                {i}
+              </option>
+            );
+          }
+          return options;
+        })()}
+      </select>
+      <p>Selected CR: {selectedNumber}</p>
+      <p>Monster Names: {selectedMonsterName}</p>
+    </>
+  );
+}
+
+export default App;
