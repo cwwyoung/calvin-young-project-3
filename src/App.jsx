@@ -2,24 +2,30 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 import MonsterInfo from "./MonsterInfo";
+import SelectCr from "./SelectCr";
 
 function App() {
   const [selectedNumber, setSelectedNumber] = useState(0);
   const [challengeRatingAndName, setchallengeRatingAndName] = useState([]);
   const [selectedMonsterName, setSelectedMonsterName] = useState("No monsters");
+  const [monsterDesc, setMonsterDesc] = useState("No description available");
 
   useEffect(() => {
-    const url = "https://api.open5e.com/v1/monsters/";
+    const randomPage = Math.floor(Math.random() * 49) + 1;
+    const url = `https://api.open5e.com/v1/monsters/?page=${randomPage}`;
 
     axios.get(url).then((response) => {
       const monsters = response.data.results;
       // const challengeRating = monsters.map((monster) => monster.cr);
       // const name = monsters.map((monster) => monster.name);
       const crData = monsters.map((monster) => ({
-        cr: parseFloat(monster.cr),
+        cr: Math.floor(parseFloat(monster.cr)),
         name: monster.name,
+        desc: monster.desc,
       }));
+
       setchallengeRatingAndName(crData);
+
       const selectedMonsterNames = crData
         .filter((data) => data.cr === selectedNumber)
         .map((data) => data.name);
@@ -31,6 +37,15 @@ function App() {
           Math.random() * selectedMonsterNames.length
         );
         setSelectedMonsterName(selectedMonsterNames[randomIndex]);
+
+        const selectedMonster = challengeRatingAndName.find(
+          (data) => data.name === selectedMonsterName
+        );
+        if (selectedMonster) {
+          setMonsterDesc(selectedMonster.desc);
+        } else {
+          setMonsterDesc("No description available");
+        }
       }
     });
   }, [selectedNumber]);
@@ -65,23 +80,12 @@ function App() {
 
   return (
     <>
-      <select value={selectedNumber} onChange={handleChange}>
-        {(() => {
-          let options = [];
-          for (let i = 0; i <= 21; i++) {
-            options.push(
-              <option key={i} value={i}>
-                {i}
-              </option>
-            );
-          }
-          return options;
-        })()}
-      </select>
+      <SelectCr value={selectedNumber} onChange={handleChange} />
       <MonsterInfo
         selectedMonsterName={selectedMonsterName}
         selectedNumber={selectedNumber}
       />
+      <p>{monsterDesc}</p>
     </>
   );
 }
