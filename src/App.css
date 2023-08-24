@@ -1,11 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap");
 
 #root {
-  max-width: 1280px;
+  max-width: 980px;
   margin: 0 auto;
   padding: 2rem;
   text-align: left;
+  line-height: 1.5rem;
 }
 .info {
   font-family: "Bebas Neue";
@@ -49,13 +51,62 @@ select {
 .read-the-docs {
   color: #888;
 }
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #1a1a1a;
+  color: #f9f9f9;
+}
 .flexContainer {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+.statsContainer p {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.desc {
+  font-family: "Noto Serif";
 }
 h1 {
   font-family: "Tilt Prism";
-  font-size: 60px;
+  font-size: 5em;
   text-align: center;
+  color: #d72727;
+}
+
+h3 {
+  text-align: center;
+  font-family: "Bebas Neue";
+  font-weight: lighter;
+  font-size: 1.5rem;
+}
+p {
+  font-family: "Bebas Neue";
+}
+
+p.info {
+  width: auto;
+}
+
+.imgContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align the content at the bottom */
+  padding: 2rem; /* Add padding for spacing */
+}
+
+.imgContainer img {
+  max-width: 100%;
 }

@@ -37,6 +37,7 @@ function App() {
         }));
 
         setchallengeRatingAndName(crData);
+        console.log(crData);
 
         const selectedMonsterNames = crData
           .filter((data) => data.cr === selectedNumber)
@@ -66,20 +67,28 @@ function App() {
             "Only parables and barmy hearsay survive",
             "A fabled entity who belies the gaze of even elder gods",
             "The monster escapes the scrolls of our most ecumenical clerics",
+            "The bards sing not of this foul beast",
           ];
 
           const randomMessage = Math.floor(
             Math.random() * noMonsterMessage.length
           );
 
-          if (selectedMonster && selectedMonster.img) {
+          if (selectedMonster.img) {
             setSelectedMonsterImageUrl(selectedMonster.img);
           } else {
             setSelectedMonsterImageUrl(placeHolder);
           }
 
-          if (!selectedMonster.desc === "") {
-            setMonsterDesc(selectedMonster.desc);
+          if (selectedMonster.desc !== "") {
+            setMonsterDesc(
+              selectedMonster.desc.replace(
+                /\*\*(.*?)\*\*/g,
+                (_, capturedText) => {
+                  return `${capturedText.toUpperCase()}:`;
+                }
+              )
+            );
           } else {
             setMonsterDesc(noMonsterMessage[randomMessage]);
           }
@@ -102,76 +111,17 @@ function App() {
     fetchData();
   }, [selectedNumber]);
 
-  // useEffect(() => {
-  //   const randomPage = Math.floor(Math.random() * 49) + 1;
-  //   const url = `https://api.open5e.com/v1/monsters/?page=${randomPage}`;
-
-  //   axios.get(url).then((response) => {
-  //     const monsters = response.data.results;
-  //     // const challengeRating = monsters.map((monster) => monster.cr);
-  //     // const name = monsters.map((monster) => monster.name);
-  //     const crData = monsters.map((monster) => ({
-  //       cr: Math.floor(parseFloat(monster.cr)),
-  //       name: monster.name,
-  //       desc: monster.desc,
-  //     }));
-
-  //     setchallengeRatingAndName(crData);
-
-  //     const selectedMonsterNames = crData
-  //       .filter((data) => data.cr === selectedNumber)
-  //       .map((data) => data.name);
-
-  //     if (selectedMonsterNames.length === 0) {
-  //       setSelectedMonsterName("No monsters");
-  //     } else {
-  //       const randomIndex = Math.floor(
-  //         Math.random() * selectedMonsterNames.length
-  //       );
-  //       setSelectedMonsterName(selectedMonsterNames[randomIndex]);
-
-  //       const selectedMonster = challengeRatingAndName.find(
-  //         (data) => data.name.trim() === selectedMonsterName
-  //       );
-  //       if (selectedMonster) {
-  //         setMonsterDesc(selectedMonster.desc);
-  //       } else {
-  //         setMonsterDesc("No description available");
-  //       }
-  //     }
-  //   });
-  // }, [selectedNumber]);
-
-  // const selectedMonsterName =
-  //   names[challengeRatingAndName.indexOf(selectedNumber)];
-  // const selectedMonsterNames = challengeRatingAndName
-  //   .filter((data) => data.cr === selectedNumber)
-  //   .map((data) => data.name);
-
   const handleChange = (event) => {
+    event.preventDefault();
     const crNumber = parseFloat(event.target.value);
     setSelectedNumber(crNumber);
   };
 
-  // const filteredchallengeRatingAndName = challengeRatingAndName.filter(
-  //   (rating) => parseFloat(rating) === parseFloat(selectedNumber)
-  // );
-  // const arrayCR = filteredchallengeRatingAndName.map((rating, index) => (
-  //   <li key={index}>{rating}</li>
-  // ));
-  // console.log(arrayCR);
-  // const combinedData = filteredchallengeRatingAndName.map((rating, index) => ({
-  //   rating,
-  //   monsterName: names[index],
-  // }));
-  // const arrayCRWithNames = combinedData.map((data, index) => (
-  //   <li key={index}>
-  //     {data.rating} - {data.name}
-  //   </li>
-  // ));
-
   return (
     <>
+      <div className="buttonContainer">
+        <button onClick={setSelectedNumber}>Next Monster</button>
+      </div>
       <h1>Monster Randomizer</h1>
       <div className="flexContainer">
         <SelectCr value={selectedNumber} onChange={handleChange} />
@@ -180,21 +130,25 @@ function App() {
           selectedNumber={selectedNumber}
         />
       </div>
-      <p>{monsterDesc}</p>
-      {challengeRatingAndName.length > 0 ? (
-        <img src={challengeRatingAndName[0].img || placeHolder} />
-      ) : (
-        <img src={placeHolder} alt="Placeholder" />
-      )}
+
+      <h3>Hit Points: {stats.hp}</h3>
       <div className="stats">
-        <h2>Stats</h2>
-        <p>Hit Points: {stats.hp}</p>
-        <p>Strength: {stats.str}</p>
-        <p>Dexterity: {stats.dex}</p>
-        <p>Constitution: {stats.con}</p>
-        <p>Intelligence: {stats.int}</p>
-        <p>Wisdom: {stats.wis}</p>
-        <p>Charisma: {stats.cha}</p>
+        <div className="statsContainer">
+          <p>Strength: {stats.str}</p>
+          <p>Dexterity: {stats.dex}</p>
+          <p>Constitution: {stats.con}</p>
+          <p>Intelligence: {stats.int}</p>
+          <p>Wisdom: {stats.wis}</p>
+          <p>Charisma: {stats.cha}</p>
+        </div>
+      </div>
+      <p className="desc">{monsterDesc}</p>
+      <div className="imgContainer">
+        {selectedMonsterImageUrl ? (
+          <img src={selectedMonsterImageUrl} alt="Monster" />
+        ) : (
+          <img src={placeHolder} alt="Placeholder" />
+        )}
       </div>
     </>
   );
