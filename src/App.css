@@ -92,8 +92,13 @@ h3 {
   font-weight: lighter;
   font-size: 1.5rem;
 }
-p {
+p,
+button {
   font-family: "Bebas Neue";
+}
+
+button {
+  font-size: 2rem;
 }
 
 p.info {
@@ -109,4 +114,15 @@ p.info {
 
 .imgContainer img {
   max-width: 100%;
+}
+
+.randomDice {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+.randomDiceImg {
+  width: 4rem;
 }
