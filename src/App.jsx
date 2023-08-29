@@ -6,6 +6,7 @@ import SelectCr from "./SelectCr";
 import Stats from "./Stats";
 import placeHolder from "./assets/placeholder.jpg";
 import dice from "./assets/dice.png";
+import texture from "./assets/texture.jpg";
 
 function App() {
   const [selectedNumber, setSelectedNumber] = useState(0);
@@ -14,9 +15,11 @@ function App() {
   const [monsterDesc, setMonsterDesc] = useState("No description available");
   const [stats, setStats] = useState([]);
   const [selectedMonsterImageUrl, setSelectedMonsterImageUrl] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const randomPage = Math.floor(Math.random() * 49) + 1;
       const url = `https://api.open5e.com/v1/monsters/?page=${randomPage}`;
 
@@ -104,6 +107,7 @@ function App() {
           cha: selectedMonster.cha,
         });
       }
+      setLoading(false);
     } catch (error) {
       console.error("Error", error);
     }
@@ -131,7 +135,7 @@ function App() {
         <SelectCr value={selectedNumber} onChange={handleChange} />
 
         <MonsterInfo
-          selectedMonsterName={selectedMonsterName}
+          selectedMonsterName={loading ? "Loading..." : selectedMonsterName}
           selectedNumber={selectedNumber}
         />
         <button onClick={handleNewMonster} className="randomDice">

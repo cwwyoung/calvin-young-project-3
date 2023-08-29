@@ -8,10 +8,18 @@
   padding: 2rem;
   text-align: left;
   line-height: 1.5rem;
+  border: 1px solid #faf9f6;
+  border-radius: 1rem;
+  background: rgb(26, 26, 26);
+  background: linear-gradient(
+    50deg,
+    rgba(26, 26, 26, 0.9289916650253851) 12%,
+    rgba(0, 0, 0, 1) 88%
+  );
 }
 .info {
   font-family: "Bebas Neue";
-  font-size: 2em;
+  font-size: 3em;
 }
 .logo {
   height: 6em;
@@ -58,6 +66,9 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-image: url("./assets/texture.jpg");
+  background-repeat: repeat;
+  background-size: cover;
   background-color: #1a1a1a;
   color: #f9f9f9;
 }
