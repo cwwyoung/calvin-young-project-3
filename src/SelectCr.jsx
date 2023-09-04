@@ -12,9 +12,12 @@ function SelectCr({ value, onChange }) {
     );
   }
   return (
-    <select value={value} onChange={onChange}>
-      {options}
-    </select>
+    <>
+      <label htmlFor="crSelect">Select Challenge Rating:</label>
+      <select value={value} onChange={onChange}>
+        {options}
+      </select>
+    </>
   );
 }
 

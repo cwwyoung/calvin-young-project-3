@@ -17,6 +17,11 @@
     rgba(0, 0, 0, 1) 88%
   );
 }
+label {
+  font-family: "Bebas Neue";
+  font-size: 1.8em;
+}
+
 .info {
   font-family: "Bebas Neue";
   font-size: 3em;
@@ -136,4 +141,82 @@ p.info {
 }
 .randomDiceImg {
   width: 4rem;
+}
+
+@media (max-width: 768px) {
+  #root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  .randomDiceImg,
+  .imgContainer img {
+    max-width: 100%;
+    height: auto;
+  }
+  .flexContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+body.active-modal {
+  overflow-y: hidden;
+}
+
+.btn-modal {
+  position: absolute;
+  left: 90%;
+  top: 10%;
+}
+button.btn-modal {
+  font-size: 1em;
+  background-color: #1a1a1a;
+  border: 1px solid white;
+  border-radius: 25%;
+  color: white;
+}
+.modal,
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.overlay {
+  background: rgba(49, 49, 49, 0.8);
+}
+.modal-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #1a1a1a;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 600px;
+  min-width: 300px;
+  font-size: 1.5em;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1em;
+  background-color: #1a1a1a;
+  border: 1px solid white;
+  border-radius: 25%;
+  color: white;
 }

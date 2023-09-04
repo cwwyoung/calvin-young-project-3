@@ -6,7 +6,7 @@ import SelectCr from "./SelectCr";
 import Stats from "./Stats";
 import placeHolder from "./assets/placeholder.jpg";
 import dice from "./assets/dice.png";
-import texture from "./assets/texture.jpg";
+import Modal from "./Modal";
 
 function App() {
   const [selectedNumber, setSelectedNumber] = useState(0);
@@ -41,7 +41,6 @@ function App() {
       }));
 
       setchallengeRatingAndName(crData);
-      console.log(crData);
 
       const selectedMonsterNames = crData
         .filter((data) => data.cr === selectedNumber)
@@ -72,6 +71,9 @@ function App() {
           "A fabled entity who belies the gaze of even elder gods",
           "The monster escapes the scrolls of our most ecumenical clerics",
           "The bards sing not of this foul beast",
+          "A shadowy figure that haunts the edge of our knowledge.",
+          "Its name is whispered only in hushed tones, a creature of mystery.",
+          "The monster vanishes into thin air, leaving behind only mystery.",
         ];
 
         const randomMessage = Math.floor(
@@ -131,6 +133,7 @@ function App() {
     <>
       <div className="buttonContainer"></div>
       <h1>Monster Randomizer</h1>
+
       <div className="flexContainer">
         <SelectCr value={selectedNumber} onChange={handleChange} />
 
@@ -142,6 +145,7 @@ function App() {
           <img src={dice} alt="d20" className="randomDiceImg" />
         </button>
       </div>
+      <Modal />
       <Stats stats={stats} />
       <p className="desc">{monsterDesc}</p>
       <div className="imgContainer">
